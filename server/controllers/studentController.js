@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const StudentModel = require("../models/studentModel");
+const StudentModel = require("../models/StudentModel");
 const fs = require("fs");
 const path = require("path");
 
