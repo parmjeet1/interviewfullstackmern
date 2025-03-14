@@ -1,5 +1,5 @@
 const express = require("express");
-require("dotenv").config();
+
 const app = express();
 const cors=require("cors");
 require("dotenv").config();
@@ -24,7 +24,7 @@ app.use("/api/students", studentRoutes);
 
 app.use("/api/admin", adminRoutes);
 
-const port=5000;
+const port=process.env.PORT
 app.listen(port, ()=>{
     console.log( `server is runing in ${port}`  )
    
