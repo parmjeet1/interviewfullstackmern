@@ -57,7 +57,7 @@ export const registerAdmin = async (formData) => {
 
         return response.data;
     } catch (err) {
-        console.error("❌ API Error:", err.response?.data || err.message);
+        console.error(" API Error:", err.response?.data || err.message);
         throw new Error(err.response?.data?.message || "Failed to add student.");
     }
 };
@@ -80,7 +80,7 @@ export const fetchStudents = async () => {
 
         return response.data.students;
     } catch (error) {
-        console.error("❌ API Error:", error.response?.data || error.message);
+        console.error("API Error:", error.response?.data || error.message);
         throw new Error(error.response?.data?.message || "Failed to fetch students.");
     }
 };
@@ -103,7 +103,7 @@ export const deleteStudent = async (studentId) => {
 
         return response.data;
     } catch (error) {
-        console.error("❌ API Error:", error.response?.data || error.message);
+        console.error("API Error:", error.response?.data || error.message);
         throw new Error(error.response?.data?.message || "Failed to delete student.");
     }
 };
@@ -120,7 +120,7 @@ export const updateStudent = async (studentId, studentData) => {
       formData.append("phone", studentData.phone);
       formData.append("gender", studentData.gender);
 
-      // ✅ Ensure qualification is sent properly
+
       if (Array.isArray(studentData.qualification)) {
           studentData.qualification.forEach((q) => formData.append("qualification", q));
       } else if (typeof studentData.qualification === "string") {
@@ -144,7 +144,7 @@ export const updateStudent = async (studentId, studentData) => {
 
       return response.data;
   } catch (err) {
-      console.error("❌ API Error:", err.response?.data || err.message);
+      console.error("API Error:", err.response?.data || err.message);
       throw new Error(err.response?.data?.message || "Failed to update student.");
   }
 };
@@ -156,22 +156,21 @@ export const updateAdminProfile = async (formData) => {
           throw new Error("No token found! Please login again.");
       }
 
-      const adminId = localStorage.getItem("adminId"); // ✅ Fetch Admin ID
-      formData.append("adminId", adminId); // ✅ Append Admin ID
+      const adminId = localStorage.getItem("adminId"); 
+      formData.append("adminId", adminId); 
 
-      // ✅ Convert FormData to JSON for debugging
+
       let formDataObject = {};
       formData.forEach((value, key) => {
           if (key === "profileImage") {
-              formDataObject[key] = value.name; // Show only file name
+              formDataObject[key] = value.name; 
           } else {
               formDataObject[key] = value;
           }
       });
 
-      console.log("📌 FormData in JSON format before API call:", JSON.stringify(formDataObject, null, 2));
+      console.log(" FormData in JSON format before API call:", JSON.stringify(formDataObject, null, 2));
 
-      // ✅ API Call
       const response = await axios.put(
           `${apiUrl}/admin/update-profile`,
           formData,
