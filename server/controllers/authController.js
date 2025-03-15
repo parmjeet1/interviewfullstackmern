@@ -73,7 +73,7 @@ const adminLogin = async (req, res) => {
                 message: "password does not match" });
         }
         const token = jwt.sign({ id: admin._id, role: admin.role }, 
-            process.env.JWT_SECRET, { expiresIn: "1h" });
+            process.env.JWT_SECRET, { expiresIn: "6h" });
             
             admin.lastLoggedIn = new Date();
             await admin.save();

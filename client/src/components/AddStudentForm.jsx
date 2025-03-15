@@ -31,10 +31,8 @@ const AddStudentForm = ({ onStudentAdd }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-  
-
-    const formData = new FormData();
+  try{
+   const formData = new FormData();
     formData.append("name", student.name);
     formData.append("email", student.email);
     formData.append("password", student.password);
@@ -46,16 +44,10 @@ const AddStudentForm = ({ onStudentAdd }) => {
     if (student.profileImage) {
       formData.append("profileImage", student.profileImage); 
     }
-  
-    
-  
-    try {
-      await onStudentAdd(formData);
-       window.location.reload();
+  await onStudentAdd(formData);
+     
 
-    } catch (error) {
-      console.error("Error adding student:", error);
-    }
+    
   
 
     setStudent({
@@ -67,6 +59,10 @@ const AddStudentForm = ({ onStudentAdd }) => {
       password: "",
       profileImage: null,
     });
+
+  } catch (error) {
+    console.error("Error adding student:", error);
+  }
   };
   
   return (

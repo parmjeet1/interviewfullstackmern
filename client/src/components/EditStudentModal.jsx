@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { updateStudent } from "../utils/api";
 
-const EditStudentModal = ({ student, onClose }) => {
+const EditStudentModal = ({ student, onClose,onUpdateStudent }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     qualification: [],
     gender: "",
+    
   });
 
   useEffect(() => {
@@ -20,6 +21,7 @@ const EditStudentModal = ({ student, onClose }) => {
           ? student.qualification
           : [],
         gender: student.gender,
+        
       });
     }
   }, [student]);
@@ -49,19 +51,21 @@ const EditStudentModal = ({ student, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await updateStudent(student._id, formData);
-      if (response.success) {
-        alert("Student updated successfully!");
-
-        window.location.reload();
-      } else {
-        alert("Failed to update student.");
-      }
+        const response = await updateStudent(student._id, formData);
+        if (response.success) {
+            alert("Student updated successfully!");
+            onUpdateStudent(response.student);
+            onClose(); 
+        } else {
+            alert("Failed to update student.");
+        }
     } catch (error) {
-      console.error("Error updating student:", error);
+        console.error("Error updating student:", error);
     }
-  };
+};
 
+
+  
   return (
     <div className="modal show d-block" tabIndex="-1">
       <div className="modal-dialog">
@@ -144,6 +148,7 @@ const EditStudentModal = ({ student, onClose }) => {
                   <option value="Female">Female</option>
                 </select>
               </div>
+              
 
               <button type="submit" className="btn btn-primary">
                 Update Student

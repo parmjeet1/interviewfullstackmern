@@ -129,15 +129,6 @@ const getAllStudents = async (req, res) => {
             }
         }
 
-        if (password) {
-            student.password = await bcrypt.hash(password, 10);
-        }
-
-
-        if (req.file) {
-            student.profileImage = `/uploads/${req.file.filename}`;
-        }
-
         if (qualification) {
             student.qualification = Array.isArray(qualification) ? qualification : [qualification];
         }

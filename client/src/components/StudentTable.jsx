@@ -3,33 +3,13 @@ import { deleteStudent, fetchStudents } from "../utils/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
 import EditStudentModal from "./EditStudentModal";
+import ImageModal from "./ImageModal";
 
-const StudentTable = () => {
-  const [students, setStudents] = useState([]);
+const StudentTable = ({ students, setStudents }) => {
+
   const [selectedStudent, setSelectedStudent] = useState(null);
 
-
-  useEffect(() => {
-    const getStudents = async () => {
-      try {
-        const studentData = await fetchStudents();
-        setStudents(studentData);
-      } catch (error) {
-        console.error("Error fetching students:", error);
-      }
-    };
-
-    getStudents();
-  }, []);
-
-  const getStudents = async () => {
-    try {
-      const studentData = await fetchStudents();
-      setStudents(studentData);
-    } catch (error) {
-      console.error(" Error fetching students:", error);
-    }
-  };
+ 
   const handleDelete = async (studentId) => {
     if (!window.confirm("Are you sure you want to delete this student?")) {
       return;
@@ -43,6 +23,22 @@ const StudentTable = () => {
       console.error(" Error deleting student:", error);
       
     }
+  };
+
+  const handleUpdateStudent = (updatedStudent) => {
+    setStudents((prevStudents) =>
+      prevStudents.map((student) =>
+        student._id === updatedStudent._id ? updatedStudent : student
+      )
+    );
+    
+    setSelectedStudent(null);
+  };
+  const [imageModalOpen, setImageModalOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const handleImageClick = (imageUrl) => {
+    setImageUrl(imageUrl);
+    setImageModalOpen(true);
   };
 
   return (
@@ -72,12 +68,14 @@ const StudentTable = () => {
                 <td>{student.gender}</td>
                 <td>{student.qualification.join(", ")}</td>
                 <td>
-                  <img
+                <img
                     src={`${import.meta.env.VITE_API_BASE_URL}${student.profileImage}`}
                     alt="Profile"
                     width="50"
                     height="50"
                     className="rounded-circle"
+                    onClick={() => handleImageClick(`${import.meta.env.VITE_API_BASE_URL}${student.profileImage}`)}  // On click, show the image in a modal
+                    style={{ cursor: "pointer" }}  // Make it clickable
                   />
                 </td>
                 <td>
@@ -107,10 +105,15 @@ const StudentTable = () => {
         </tbody>
       </table>
       {selectedStudent && (
-        <EditStudentModal
-          student={selectedStudent}
-          onClose={() => setSelectedStudent(null)}
-        />
+      <EditStudentModal
+      student={selectedStudent}
+      onClose={() => setSelectedStudent(null)}
+      onUpdateStudent={handleUpdateStudent} 
+    />
+     
+      )}
+       {imageModalOpen && (
+        <ImageModal imageUrl={imageUrl} onClose={() => setImageModalOpen(false)} />
       )}
     </div>
   );

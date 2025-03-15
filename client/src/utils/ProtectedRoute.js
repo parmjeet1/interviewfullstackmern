@@ -1,17 +1,30 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+const checkAuthentication = () => {
+  const token = localStorage.getItem("token");
+  return token ? true : false;
+};
+
 const ProtectedRoute = ({ children }) => {
-    const navigate = useNavigate();
-    const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    useEffect(() => {
-        if (!token) {
-            navigate("/login"); 
-        }
-    }, [token, navigate]);
+  useEffect(() => {
+    const authenticated = checkAuthentication();
+    if (!authenticated) {
+      navigate("/login");
+    } else {
+      setIsAuthenticated(true);
+    }
+  }, [navigate]);
 
-    return token ? children : null; 
+  if (!isAuthenticated) {
+    return null; 
+  }
+
+  return children; 
 };
 
 export default ProtectedRoute;

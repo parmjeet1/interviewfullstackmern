@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/all", verifyToken, getAllStudents);
 router.delete("/delete/:id", verifyToken, deleteStudent);
-router.put("/update/:id", verifyToken, upload.single("profilePic"), updateStudent);
+router.put("/update/:id", verifyToken, updateStudent);
 router.post("/add", upload.single("profileImage"), addStudent);
 
 

@@ -47,12 +47,11 @@ const AdminResetPassword =  ({ handleProfileUpdate }) => {
             const adminId = localStorage.getItem("adminId");
             submitFormData.append("adminId", adminId);
     
+            
             if (formData.profileImage) {
-                submitFormData.append("profileImage", formData.profileImage);
+              submitFormData.append("profileImage", formData.profileImage);
             }
-    
-        
-            const response = await updateAdminProfile(submitFormData);
+                const response = await updateAdminProfile(submitFormData);
     
             if (response.success) {
                 setSuccessMessage("Profile updated successfully!");
@@ -63,6 +62,8 @@ const AdminResetPassword =  ({ handleProfileUpdate }) => {
                 setTimeout(() => {
                     document.querySelector("#resetPasswordModal .btn-close").click();
                 }, 1000);
+                
+
     
 
                 setFormData({
@@ -73,9 +74,7 @@ const AdminResetPassword =  ({ handleProfileUpdate }) => {
                 });
     
 
-                setTimeout(() => {
-                    document.querySelector("#resetPasswordModal .btn-close").click();
-                }, 1000);
+                
             } else {
                 setErrorMessage("Failed to update profile.");
             }

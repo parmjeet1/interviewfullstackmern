@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAdminDetails, addStudent } from "../utils/api";
-import AddStudentForm from "../components/AddStudentForm";
-import StudentTable from "../components/StudentTable";
+import { fetchAdminDetails, addStudent, updateAdminProfile } from "../utils/api";
 import AdminResetPassword from "../components/AdminRestPassword";
 function Dashboard() {
  
@@ -24,31 +22,11 @@ function Dashboard() {
         setError(err.message || "Error fetching admin details.");
       }
     };
+  
+    getAdmin(); 
+  }, [admin]);
 
-    getAdmin();
-  }, []);
-
-  const handleAddStudent = async (formData) => {
-   
-
-    try {
-        const response = await addStudent(formData);
-
-        if (response.success) {
-            alert("Student added successfully!");
-           
-            
-          
-            getStudents();
-        } else {
-            alert("Student not added ");
-        }
-    } catch (error) {
-       
-       console.log(error)
-    }
-};
-
+ 
 const handleProfileUpdate = async (formData) => {
   try {
       const response = await updateAdminProfile(formData);
@@ -56,11 +34,13 @@ const handleProfileUpdate = async (formData) => {
       if (response.success) {
           alert("Profile updated successfully!");
 
-          
+          const updatedProfileImage = `${import.meta.env.VITE_API_BASE_URL}${response.profileImage}?${new Date().getTime()}`;
+
           setAdmin((prevAdmin) => ({
               ...prevAdmin,
-              profileImage: response.profileImage, 
+              profileImage: updatedProfileImage,
           }));
+          getAdmin();
       } else {
           alert("Failed to update profile.");
       }
@@ -68,6 +48,7 @@ const handleProfileUpdate = async (formData) => {
       console.error("Error updating profile:", error);
       
   }
+
 };
 
 
@@ -102,7 +83,7 @@ const handleProfileUpdate = async (formData) => {
             </p>
             <button
               type="button"
-              className="btn btn-outline-primary"
+              className="btn btn sm btn-primary"
               data-bs-toggle="modal"
               data-bs-target="#resetPasswordModal"
             >
@@ -117,8 +98,7 @@ const handleProfileUpdate = async (formData) => {
 
       <AdminResetPassword handleProfileUpdate={handleProfileUpdate} />
 
-      <AddStudentForm onStudentAdd={handleAddStudent} />
-      <StudentTable/>
+    
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAdmin } from "../utils/api";
 
 
-function Login(){
+function Login({ setToken }){
   const [showPassword, setShowPassword]=useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -33,12 +33,10 @@ function Login(){
     try {
       const response = await loginAdmin(formData);
       setSuccess("Login successful!");
-      localStorage.setItem("token", response.token);
-      localStorage.setItem("adminId", response.adminId);
-       setTimeout(() => {
-        window.location.href = "/dashboard";
-      
-      }, 2000);
+     localStorage.setItem("token", response.token);
+    localStorage.setItem("adminId", response.adminId);
+     setToken(response.token);
+     navigate("/dashboard");
     } catch (error) {
       setError(error);
     }
