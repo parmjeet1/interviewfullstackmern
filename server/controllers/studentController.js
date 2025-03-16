@@ -115,7 +115,7 @@ const getAllStudents = async (req, res) => {
   const updateStudent = async (req, res) => {
     try {
         const studentId = req.params.id;
-        const { name, email, phone, qualification, gender, password } = req.body;
+        const { name, email, phone, qualification, gender } = req.body;
 
         const student = await StudentModel.findById(studentId);
         if (!student) {

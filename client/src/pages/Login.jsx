@@ -32,11 +32,15 @@ function Login({ setToken }){
 
     try {
       const response = await loginAdmin(formData);
+      if(response.success){
       setSuccess("Login successful!");
      localStorage.setItem("token", response.token);
     localStorage.setItem("adminId", response.adminId);
      setToken(response.token);
      navigate("/dashboard");
+    }else{
+      setError(response.message);
+    }
     } catch (error) {
       setError(error);
     }
@@ -52,7 +56,7 @@ function Login({ setToken }){
    
 
   <div class="form-group">
-    <label for="email">Email address:</label>
+    <label htmlFor="email">Email address:</label>
     <input 
             type="email" 
             className="form-control" 
@@ -63,7 +67,7 @@ function Login({ setToken }){
           />
   </div>
  <div className="form-group position-relative">
-  <label htmlFor="pwd">Password:</label>
+  <label htmlhtmlFor="pwd">Password:</label>
   <div className="input-group">
   <input
               type={showPassword ? "text" : "password"}

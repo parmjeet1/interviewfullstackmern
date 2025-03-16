@@ -26,6 +26,7 @@ const StudentTable = ({ students, setStudents }) => {
   };
 
   const handleUpdateStudent = (updatedStudent) => {
+   
     setStudents((prevStudents) =>
       prevStudents.map((student) =>
         student._id === updatedStudent._id ? updatedStudent : student

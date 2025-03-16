@@ -52,6 +52,8 @@ const EditStudentModal = ({ student, onClose,onUpdateStudent }) => {
     e.preventDefault();
     try {
         const response = await updateStudent(student._id, formData);
+
+        
         if (response.success) {
             alert("Student updated successfully!");
             onUpdateStudent(response.student);
@@ -107,7 +109,7 @@ const EditStudentModal = ({ student, onClose,onUpdateStudent }) => {
               <div className="mb-3">
                 <label className="form-label">Phone</label>
                 <input
-                  type="text"
+                  type="tel"
                   className="form-control"
                   name="phone"
                   value={formData.phone}
