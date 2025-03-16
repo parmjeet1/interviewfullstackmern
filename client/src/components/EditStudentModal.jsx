@@ -107,7 +107,7 @@ const EditStudentModal = ({ student, onClose,onUpdateStudent }) => {
               </div>
 
               <div className="mb-3">
-                <label className="form-label">Phone</label>
+                <label className="form-label">phone</label>
                 <input
                   type="tel"
                   className="form-control"

@@ -99,7 +99,7 @@ const StudentTable = ({ students, setStudents }) => {
           ) : (
             <tr>
               <td colSpan="8" className="text-center">
-                No students found
+                No Record found
               </td>
             </tr>
           )}
