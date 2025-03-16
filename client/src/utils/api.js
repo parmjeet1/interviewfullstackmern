@@ -110,6 +110,8 @@ export const deleteStudent = async (studentId) => {
         throw new Error(error.response?.data?.message || "Failed to delete student.");
     }
 };
+
+
 export const updateStudent = async (studentId, studentData) => {
   try {
       const token = localStorage.getItem("token");
@@ -117,23 +119,23 @@ export const updateStudent = async (studentId, studentData) => {
           throw new Error("No token found! Please login again.");
       }
 
-      const formData = new FormData();
-      formData.append("name", studentData.name);
-      formData.append("email", studentData.email);
-      formData.append("phone", studentData.phone);
-      formData.append("gender", studentData.gender);
-      if (Array.isArray(studentData.qualification)) {
-          studentData.qualification.forEach((q) => formData.append("qualification", q));
-      } else if (typeof studentData.qualification === "string") {
-          formData.append("qualification", studentData.qualification);
-      }
-     const response = await axios.put(
+
+      const data = {
+          name: studentData.name,
+          email: studentData.email,
+          phone: studentData.phone,
+          gender: studentData.gender,
+          qualification: studentData.qualification, 
+      };
+
+     
+      const response = await axios.put(
           `${import.meta.env.VITE_API_BASE_URL}/students/update/${studentId}`,
-          formData,
+          data, 
           {
               headers: {
                   Authorization: `Bearer ${token}`,
-                  "Content-Type": "application/json",
+                  "Content-Type": "application/json",  
               },
           }
       );
