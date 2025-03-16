@@ -14,7 +14,7 @@ export const registerAdmin = async (formData) => {
   };
   export const loginAdmin = async (formData) => {
     try {
-        const token = localStorage.getItem("token");
+      
       const response = await axios.post(`${apiUrl}/auth/login`, formData);
       return { success: true, token: response.data.token, adminId: response.data.adminId };
     } catch (error) {

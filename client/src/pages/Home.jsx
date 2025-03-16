@@ -45,7 +45,7 @@ const [showPassword, setShowPassword]=useState(false);
 
     try {
       const response = await registerAdmin(formData); 
-      console.log("API Response:", response);
+      
       setSuccess("Registration successful!");
   
       setTimeout(() => {
